@@ -1,0 +1,78 @@
+---
+title: "EDA SIP"
+output:
+    html_document:
+    df_print: paged
+theme: sandstone
+---
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(here)
+source(here::here("code/lib.R"))
+theme_set(theme_bw())
+
+knitr::opts_chunk$set(tidy = FALSE,
+                      fig.width = 6,
+                      fig.height = 5,
+                      echo = FALSE)
+
+```
+
+```{r read}
+estimativas_raw = read_projectdata()
+```
+
+## O que são os dados
+
+```{r}
+glimpse(estimativas_raw)
+```
+
+## Entendendo os dados
+
+```{r}
+estimativas_raw %>% 
+    select(ProjectCode, TaskNumber, HoursEstimate, HoursActual) %>% 
+    skimr::skim()
+```
+
+Temos 20 projetos, com 12299 estimativas_raw. Não há apenas uma estimativa por tarefa, já que há apenas 10266 valores distintos de `TaskNumber`.
+
+```{r}
+estimativas_raw %>% 
+    group_by(TaskNumber) %>% 
+    mutate(estimativas_raw = n()) %>% 
+    filter(estimativas_raw > 1) %>% 
+    count(TaskNumber, sort = T)
+```
+
+### 1 estimativa por task
+
+Para nossa análise, usaremos uma estimativa por task. Caso haja mais de uma usaremos a média das estimativas_raw:
+
+```{r}
+estimativas = estimativas_raw %>% 
+    group_by(ProjectCode, TaskNumber, Priority, Summary) %>% 
+    summarise(HoursEstimate = mean(HoursEstimate), HoursActual = mean(HoursActual)) %>% 
+    ungroup()
+```
+
+## Projetos
+
+```{r}
+estimativas %>% 
+    count(ProjectCode) %>% 
+    ggplot(aes(x = reorder(ProjectCode, n), y = n)) + 
+    geom_col() + 
+    coord_flip() + 
+    labs(
+        x = "", 
+        y = "estimativas_raw"
+    )
+```
+
+## Qual a relação entre as estimativas e a realidade na empresa como um todo?
+
+
+## Qual a relação entre as estimativas e a realidade em cada projeto? 
