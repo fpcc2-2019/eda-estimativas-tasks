@@ -53,7 +53,7 @@ Para nossa análise, usaremos uma estimativa por task. Caso haja mais de uma usa
 
 ```{r}
 estimativas = estimativas_raw %>% 
-    group_by(ProjectCode, TaskNumber, Priority, Summary) %>% 
+    group_by(ProjectCode, TaskNumber, Category, Priority, Summary) %>% 
     summarise(HoursEstimate = mean(HoursEstimate), HoursActual = mean(HoursActual)) %>% 
     ungroup()
 ```
@@ -75,4 +75,5 @@ estimativas %>%
 ## Qual a relação entre as estimativas e a realidade na empresa como um todo?
 
 
-## Qual a relação entre as estimativas e a realidade em cada projeto? 
+## Qual a relação entre as estimativas e a realidade em cada projeto ou por cada categoria? 
+
