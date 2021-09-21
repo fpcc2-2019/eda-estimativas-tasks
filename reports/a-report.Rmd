@@ -73,7 +73,10 @@ por_time = estimativas_raw %>%
 ```
 
 
-## Qual a relação entre as estimativas e horas reais tomadas na empresa como um todo e em diferentes categorias de tarefa?
+## Descreva (e interprete) a distribuição de horas reais e a distribuição de erros dos diferentes tipos (subcategorias) de tarefas
+
+
+## Qual a relação entre as estimativas e horas reais tomadas na empresa como um todo e como é essa relação em diferentes subcategorias de tarefa?
 
 
 ## Equipes com mais desenvolvedores produzem estimativas com mais ou menos erro que equipes menores? 
